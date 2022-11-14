@@ -25,14 +25,18 @@
         <option value="xl">xl</option>
         <option value="xll">xxl</option>
     </select>
-    <div class="d-flex flex-row custom-control custom-radio">
-        <label>Choix du model</label>
+
+        <h1>Choix du model</h1>
+    <div class="custom-control custom-radio">
         @foreach($allTShirt as $tShirt)
-            <img src="{{ asset(str_replace('public', 'storage', $tShirt )) }}"  }} alt="..." class="w-25 h-25">
-            <input type="radio" id="customRadio {{ $tShirt }}">
+            <label>
+                <img src="{{ asset(str_replace('public', 'storage', $tShirt )) }}" alt="..." class="w-25 h-25">
+                <input type="radio" id="customRadio{{ array_search($tShirt, $allTShirt) }}" name="color" value="{{ str_replace('.png', '', (str_replace('public/images/color/TS-', '', $tShirt))) }}">
+            </label>
+
         @endforeach
     </div>
 
-
+<input type="submit" class="btn btn-primary" value="Valider">
 </form>
 @endsection
