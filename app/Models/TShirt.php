@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class TShirt extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+      'size',
+      'color',
+      'sexe',
+    ];
+
+
 }
