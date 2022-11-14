@@ -103,4 +103,7 @@ class TShirtController extends Controller
         $tShirt->delete();
         return back();
     }
+    public function displayMergedImage(Request $request, TShirt $tShirt){
+        dd($request);
+    }
 }

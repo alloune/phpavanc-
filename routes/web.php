@@ -17,3 +17,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::resource('/t-shirt', \App\Http\Controllers\TShirtController::class);
+Route::get('/t-shirt/{t-shirt}/merge', [\App\Http\Controllers\TShirtController::class, 'displayMergedImage'])->name('mergedImage');

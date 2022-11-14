@@ -17,7 +17,7 @@
 
     <h1>Liste des images</h1>
 
-    <form method="post" action="{{ route('t-shirt.update', $myData) }}" class="form-group">
+    <form method="post" action="{{ route('mergedImage', $myData) }}" class="form-group">
         @csrf
         @method('put')
         <div class="d-flex flex-wrap gap-5">
