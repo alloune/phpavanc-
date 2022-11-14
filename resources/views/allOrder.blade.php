@@ -14,10 +14,18 @@
                         <li class="list-group-item">{{ $order->color = 'black' ? "Noir" : "blanc" }}</li>
                         <li class="list-group-item">{{ $order->size }}</li>
                     </ul>
+                    <div class="d-flex flex-row justify-content-center">
+                        <a class="btn btn-primary" href="{{ route('t-shirt.show', [ $order->id ]) }}">Détail</a>
+                        <form method="post" action="{{ route('t-shirt.destroy', [ $order->id]) }}">
+                            @csrf
+                            @method('delete')
+                            <button class="btn btn-danger">Supprimer</button>
+                        </form>
+                    </div>
                 </div>
             @endforeach
         </div>
     @endif
 
-<a class="btn btn-primary" href="/">Retour à l'accueil</a>
+    <a class="btn btn-primary" href="/">Retour à l'accueil</a>
 @endsection

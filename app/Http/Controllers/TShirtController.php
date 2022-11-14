@@ -6,6 +6,7 @@ use App\Http\Requests\StoreTshirtRequest;
 use App\Models\TShirt;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use function PHPUnit\Framework\returnArgument;
 
 class TShirtController extends Controller
 {
@@ -16,6 +17,8 @@ class TShirtController extends Controller
      */
     public function index()
     {
+
+
         return view('allOrder', [
             'allOrder' => TShirt::all()
             ]
@@ -97,6 +100,7 @@ class TShirtController extends Controller
      */
     public function destroy(TShirt $tShirt)
     {
-        //
+        $tShirt->delete();
+        return back();
     }
 }
