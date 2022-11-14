@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreTshirtRequest;
 use App\Models\TShirt;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -15,7 +16,10 @@ class TShirtController extends Controller
      */
     public function index()
     {
-        //
+        return view('allOrder', [
+            'allOrder' => TShirt::all()
+            ]
+        );
     }
 
     /**
@@ -25,7 +29,7 @@ class TShirtController extends Controller
      */
     public function create()
     {
-        $allTShirt = Storage::allFiles('public/images');
+        $allTShirt = Storage::allFiles('public/images/color');
 
         return view('parameters', [
             'allTShirt' => $allTShirt,
@@ -38,9 +42,17 @@ class TShirtController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreTshirtRequest $request)
     {
-        //
+        $tShirt = new TShirt();
+
+        $tShirt->fill($request->validated());
+        $tShirt->save();
+
+
+        return view('selectImage', [
+            'myData' => $tShirt
+        ]);
     }
 
     /**
@@ -74,7 +86,7 @@ class TShirtController extends Controller
      */
     public function update(Request $request, TShirt $tShirt)
     {
-        //
+        dd($request);
     }
 
     /**
