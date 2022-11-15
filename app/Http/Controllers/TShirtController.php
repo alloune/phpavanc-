@@ -6,6 +6,7 @@ use App\Http\Requests\StoreTshirtRequest;
 use App\Models\TShirt;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 use function PHPUnit\Framework\returnArgument;
 
 class TShirtController extends Controller
@@ -20,7 +21,7 @@ class TShirtController extends Controller
 
 
         return view('allOrder', [
-            'allOrder' => TShirt::all()
+                'allOrder' => TShirt::all()
             ]
         );
     }
@@ -42,7 +43,7 @@ class TShirtController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreTshirtRequest $request)
@@ -61,7 +62,7 @@ class TShirtController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\TShirt  $tShirt
+     * @param \App\Models\TShirt $tShirt
      * @return \Illuminate\Http\Response
      */
     public function show(TShirt $tShirt)
@@ -72,7 +73,7 @@ class TShirtController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\TShirt  $tShirt
+     * @param \App\Models\TShirt $tShirt
      * @return \Illuminate\Http\Response
      */
     public function edit(TShirt $tShirt)
@@ -83,8 +84,8 @@ class TShirtController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\TShirt  $tShirt
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\TShirt $tShirt
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, TShirt $tShirt)
@@ -95,7 +96,7 @@ class TShirtController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\TShirt  $tShirt
+     * @param \App\Models\TShirt $tShirt
      * @return \Illuminate\Http\Response
      */
     public function destroy(TShirt $tShirt)
@@ -103,7 +104,29 @@ class TShirtController extends Controller
         $tShirt->delete();
         return back();
     }
-    public function displayMergedImage(Request $request, TShirt $tShirt){
-        dd($request);
+
+    public function displayMergedImage(Request $request, TShirt $tShirt)
+    {
+
+        $imageLink = match ($tShirt->color) {
+
+            'white' => 'storage/images/color/TS-white.png',
+            'black' => 'storage/images/color/TS-black.png',
+        };
+
+        $newFileLink = str_replace('color', 'MergeChoice', $imageLink);
+        $newFileLink = str_replace('.png', strval($tShirt->id) . '.png', $newFileLink);
+
+        copy($imageLink, $newFileLink);
+
+        $tShirtLayer = Image::make($newFileLink);
+        $tShirtLayer->resize(500,500)
+            ->insert('https://picsum.photos/100?random='.$tShirt->id, 'center')
+            ->save();
+
+
+        return view('mergeRenderer', [
+            'link' => $newFileLink,
+        ]);
     }
 }

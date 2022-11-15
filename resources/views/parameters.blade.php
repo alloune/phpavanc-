@@ -33,7 +33,6 @@
                 <img src="{{ asset(str_replace('public', 'storage', $tShirt )) }}" alt="..." class="w-25 h-25">
                 <input type="radio" id="customRadio{{ array_search($tShirt, $allTShirt) }}" name="color" value="{{ str_replace('.png', '', (str_replace('public/images/color/TS-', '', $tShirt))) }}">
             </label>
-
         @endforeach
     </div>
 
