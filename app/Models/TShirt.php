@@ -10,9 +10,10 @@ class TShirt extends Model
     use HasFactory;
 
     protected $fillable = [
-      'size',
-      'color',
-      'sexe',
+        'size',
+        'color',
+        'sexe',
+        'mergeImageUrl'
     ];
 
 

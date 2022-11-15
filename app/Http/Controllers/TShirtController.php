@@ -50,9 +50,9 @@ class TShirtController extends Controller
     {
         $tShirt = new TShirt();
 
+
         $tShirt->fill($request->validated());
         $tShirt->save();
-
 
         return view('selectImage', [
             'myData' => $tShirt
@@ -90,7 +90,28 @@ class TShirtController extends Controller
      */
     public function update(Request $request, TShirt $tShirt)
     {
-        dd($request);
+
+        $imageLink = match ($tShirt->color) {
+
+            'white' => 'storage/images/color/TS-white.png',
+            'black' => 'storage/images/color/TS-black.png',
+        };
+
+        $newFileLink = str_replace('color', 'MergeChoice', $imageLink);
+        $newFileLink = str_replace('.png', strval($tShirt->id) . '.png', $newFileLink);
+
+        copy($imageLink, $newFileLink);
+
+        $tShirtLayer = Image::make($newFileLink);
+        $tShirtLayer->resize(500,500)
+            ->insert('https://picsum.photos/100?random='.$tShirt->id, 'center')
+            ->save();
+
+
+        $tShirt->mergeImageUrl = $newFileLink;
+        $tShirt->save();
+
+        return redirect(route('t-shirt.index'));
     }
 
     /**
@@ -114,19 +135,15 @@ class TShirtController extends Controller
             'black' => 'storage/images/color/TS-black.png',
         };
 
-        $newFileLink = str_replace('color', 'MergeChoice', $imageLink);
-        $newFileLink = str_replace('.png', strval($tShirt->id) . '.png', $newFileLink);
 
-        copy($imageLink, $newFileLink);
-
-        $tShirtLayer = Image::make($newFileLink);
+        $tShirtLayer = Image::make($imageLink);
         $tShirtLayer->resize(500,500)
-            ->insert('https://picsum.photos/100?random='.$tShirt->id, 'center')
-            ->save();
+            ->insert('https://picsum.photos/100?random='.$tShirt->id, 'center');
 
-
+//Je renvois quel t-shirt est choisis + quel motif
         return view('mergeRenderer', [
-            'link' => $newFileLink,
+            'motif' => $request->input('image'),
+            't_shirt'=> $tShirt,
         ]);
     }
 }
