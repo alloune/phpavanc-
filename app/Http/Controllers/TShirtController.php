@@ -103,10 +103,16 @@ class TShirtController extends Controller
         copy($imageLink, $newFileLink);
 
         $tShirtLayer = Image::make($newFileLink);
-        $tShirtLayer->resize(500,500)
-            ->insert('https://picsum.photos/100?random='.$tShirt->id, 'center')
-            ->save();
+        $tShirtLayer->resize(500, 500);
 
+        if ($request->input('image')) {
+            $findImage = Image::make('storage/images/temp/' . $tShirt->id . '.jpg')->resize(100, 100);
+            $tShirtLayer->insert($findImage, 'center');
+        } else {
+            $tShirtLayer->insert('https://picsum.photos/100?random=' . $tShirt->id, 'center');
+        }
+
+        $tShirtLayer->save();
 
         $tShirt->mergeImageUrl = $newFileLink;
         $tShirt->save();
@@ -128,22 +134,18 @@ class TShirtController extends Controller
 
     public function displayMergedImage(Request $request, TShirt $tShirt)
     {
+        $path = false;
+        if ($request->file('userDesign')) {
+            $request->file('userDesign')->storeAs('public/images/temp', $tShirt->id . '.jpg');
+            $path = true;
+        }
 
-        $imageLink = match ($tShirt->color) {
 
-            'white' => 'storage/images/color/TS-white.png',
-            'black' => 'storage/images/color/TS-black.png',
-        };
-
-
-        $tShirtLayer = Image::make($imageLink);
-        $tShirtLayer->resize(500,500)
-            ->insert('https://picsum.photos/100?random='.$tShirt->id, 'center');
-
-//Je renvois quel t-shirt est choisis + quel motif
+        //Je renvois quel t-shirt est choisit + quel motif
         return view('mergeRenderer', [
             'motif' => $request->input('image'),
-            't_shirt'=> $tShirt,
+            'userDesign' => $path,
+            't_shirt' => $tShirt,
         ]);
     }
 }

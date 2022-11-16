@@ -19,16 +19,16 @@
 
     <h1>Liste des images</h1>
 
-    <form method="post" action="{{ route('mergedImage', $myData) }}" class="form-group">
+    <form method="post" action="{{ route('mergedImage', $myData) }}" enctype="multipart/form-data">
         @csrf
         @method('put')
         <div class="d-flex flex-wrap gap-5">
-            @for($i = 0; $i < 50; $i++)
+            @for($i = 0; $i < 20; $i++)
                 <img src="https://picsum.photos/200?random={{ $i }}">
                 <input type="radio" value="https://picsum.photos/200?random={{ $i }}" name="image">
             @endfor
         </div>
-        <input type="file" accept=".jpg, .png">
+        <input type="file" accept=".jpg, .png" name="userDesign">
         <input type="submit" class="btn btn-primary">
     </form>
 @endsection

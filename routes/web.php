@@ -20,4 +20,4 @@ Route::resource('/t-shirt', \App\Http\Controllers\TShirtController::class);
 
 Route::put('/merge/{t_shirt}', [\App\Http\Controllers\TShirtController::class, 'displayMergedImage'])->name('mergedImage');
 
-Route::get('/merge/getRenderer/{t_shirt}', \App\Http\Controllers\MergeController::class)->name('imageRenderer');
+Route::get('/merge/getRenderer/{t_shirt}/{userDesign?}', \App\Http\Controllers\MergeController::class)->name('imageRenderer');
