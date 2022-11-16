@@ -1,41 +1,51 @@
 @extends('layout')
 
 @section('content')
-<h1 class="">Bienvenue sur la page de personnalisation de votre T-shirt</h1>
+    <h1 class="">Bienvenue sur la page de personnalisation de votre T-shirt</h1>
 
-<hr>
+    <hr>
 
-<h1>Informations</h1>
+    <h1>Informations</h1>
+    @if($errors->any())
+        @dump($errors)
+    @endif
 
-<form method="post" action="{{ route('t-shirt.store') }}" class="form-group">
-    @method('post')
-    @csrf
+    <form class="row gy-2 gx-3 align-items-center" method="post" action="{{ route('t-shirt.store') }}">
+        @method('post')
+        @csrf
+        <div class="col-auto">
+            <div class="form-outline">
+                <label class="form-label" for="form11Example1">Sexe</label>
+                <select class="form-control" name="sexe">
+                    <option value="f">Femme</option>
+                    <option value="h">Homme</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-auto">
+            <div class="form-outline">
+                <label class="form-label" for="form11Example1">Taille</label>
+                <select class="form-control" name="size">
+                    <option value="xs">xs</option>
+                    <option value="s">s</option>
+                    <option value="m">m</option>
+                    <option value="l">l</option>
+                    <option value="xl">xl</option>
+                    <option value="xll">xxl</option>
+                </select>
+            </div>
+        </div>
 
-    <label class="form-label" for="sexe">Sexe</label>
-    <select class="form-control" name="sexe" id="sexe">
-        <option value="f">Femme</option>
-        <option value="h">Homme</option>
-    </select>
-    <label class="form-label" for="size">Taille</label>
-    <select class="form-control" name="size" id="size">
-        <option value="xs">xs</option>
-        <option value="s">s</option>
-        <option value="m">m</option>
-        <option value="l">l</option>
-        <option value="xl">xl</option>
-        <option value="xll">xxl</option>
-    </select>
-
-        <h1>Choix du model</h1>
-    <div class="custom-control custom-radio">
         @foreach($allTShirt as $tShirt)
-            <label>
-                <img src="{{ asset(str_replace('public', 'storage', $tShirt )) }}" alt="..." class="w-25 h-25">
-                <input type="radio" id="customRadio{{ array_search($tShirt, $allTShirt) }}" name="color" value="{{ str_replace('.png', '', (str_replace('public/images/color/TS-', '', $tShirt))) }}">
-            </label>
+            <div class="col-auto">
+                <div class="form-check">
+                    <img src="{{ asset(str_replace('public', 'storage', $tShirt )) }}" alt="..." class="w-25 h-25">
+                    <input type="radio" id="customRadio{{ array_search($tShirt, $allTShirt) }}" name="color" value="{{ str_replace('.png', '', (str_replace('public/images/color/TS-', '', $tShirt))) }}">
+                </div>
+            </div>
         @endforeach
-    </div>
-
-<input type="submit" class="btn btn-primary" value="Valider">
-</form>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
 @endsection
