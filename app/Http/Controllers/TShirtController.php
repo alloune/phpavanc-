@@ -67,7 +67,7 @@ class TShirtController extends Controller
      */
     public function show(TShirt $tShirt)
     {
-        //
+        return view('showImage', ['order' => $tShirt]);
     }
 
     /**
@@ -109,7 +109,7 @@ class TShirtController extends Controller
             $findImage = Image::make('storage/images/temp/' . $tShirt->id . '.jpg')->resize(100, 100);
             $tShirtLayer->insert($findImage, 'center');
 
-            Storage::delete('public/images/temp/'.$tShirt->id.'.jpg');
+            Storage::delete('public/images/temp/' . $tShirt->id . '.jpg');
         } else {
             $tShirtLayer->insert('https://picsum.photos/100?random=' . $tShirt->id, 'center');
         }
@@ -118,7 +118,6 @@ class TShirtController extends Controller
 
         $tShirt->mergeImageUrl = $newFileLink;
         $tShirt->save();
-
 
 
         return redirect(route('t-shirt.index'));

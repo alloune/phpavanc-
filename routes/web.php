@@ -22,4 +22,5 @@ Route::put('/merge/{t_shirt}', [\App\Http\Controllers\TShirtController::class, '
 
 Route::get('/merge/getRenderer/{t_shirt}/{userDesign?}', \App\Http\Controllers\MergeController::class)->name('imageRenderer');
 
-Route::get('/downloadPDF', [\App\Http\Controllers\PdfController::class, 'getOrderPdf'])->name('getOrderPdf');
+Route::get('/downloadPDF', [\App\Http\Controllers\DownloadController::class, 'getOrderPdf'])->name('getOrderPdf');
+Route::get('/downloadMergeImage/{id}', [\App\Http\Controllers\DownloadController::class, 'getMergeImage'])->name('getMergeImage');
