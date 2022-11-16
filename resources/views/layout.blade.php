@@ -25,10 +25,10 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Créer mon t-shirt</a>
+                    <a class="nav-link active" aria-current="page" href="{{ route('t-shirt.create') }}">Créer mon t-shirt</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Liste des toutes les créations</a>
+                    <a class="nav-link" href="{{ route('t-shirt.index') }}">Liste des toutes les créations</a>
                 </li>
             </ul>
         </div>

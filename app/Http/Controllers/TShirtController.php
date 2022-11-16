@@ -108,6 +108,8 @@ class TShirtController extends Controller
         if ($request->input('image')) {
             $findImage = Image::make('storage/images/temp/' . $tShirt->id . '.jpg')->resize(100, 100);
             $tShirtLayer->insert($findImage, 'center');
+
+            Storage::delete('public/images/temp/'.$tShirt->id.'.jpg');
         } else {
             $tShirtLayer->insert('https://picsum.photos/100?random=' . $tShirt->id, 'center');
         }
@@ -116,6 +118,8 @@ class TShirtController extends Controller
 
         $tShirt->mergeImageUrl = $newFileLink;
         $tShirt->save();
+
+
 
         return redirect(route('t-shirt.index'));
     }
