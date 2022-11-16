@@ -4,7 +4,7 @@
 
     <h1 class="d-flex justify-content-center">Liste des commandes</h1>
     <div class="d-flex justify-content-end m-5">
-        <button class="btn btn-dark justify-content-center">Expoter au format PDF la liste des commandes</button>
+        <a class="btn btn-dark justify-content-center" href="{{ route('getOrderPdf') }}">Expoter au format PDF la liste des commandes</a>
     </div>
 
     @if($allOrder)
@@ -19,14 +19,14 @@
                     <div class="card-body">
                         <table class="table">
                             <thead>
-                            <th>Sexe</th>
-                            <th>Couleur</th>
-                            <th>Taille</th>
+                                <th>Sexe</th>
+                                <th>Couleur</th>
+                                <th>Taille</th>
                             </thead>
                             <tbody>
-                            <td>{{ $order->sexe =='h' ? "Homme" : "Femme" }}</td>
-                            <td>{{ $order->color== 'black' ? "Noir" : "blanc" }}</td>
-                            <td>{{ $order->size }}</td>
+                                <td>{{ $order->sexe =='h' ? "Homme" : "Femme" }}</td>
+                                <td>{{ $order->color== 'black' ? "Noir" : "blanc" }}</td>
+                                <td>{{ $order->size }}</td>
                             </tbody>
                         </table>
                         <div class="d-flex flex-row justify-content-center">
