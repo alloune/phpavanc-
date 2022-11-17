@@ -17,4 +17,5 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::apiResource('/api/image/merge', \App\Http\Controllers\API\ImageApiController::class);
+Route::get('/image/merge/{t_shirt}/{userDesign?}', \App\Http\Controllers\API\ImageApiController::class)->name('getImage');
+Route::apiResource('t-shirt', \App\Http\Controllers\API\ApiMergeController::class);

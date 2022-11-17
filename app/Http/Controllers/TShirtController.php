@@ -120,7 +120,7 @@ class TShirtController extends Controller
         $tShirt->save();
 
 
-        return redirect(route('t-shirt.index'));
+        return redirect(route('t-shirt.show', $tShirt));
     }
 
     /**
@@ -137,17 +137,16 @@ class TShirtController extends Controller
 
     public function displayMergedImage(Request $request, TShirt $tShirt)
     {
-        $path = false;
+        $isDesign = false;
         if ($request->file('userDesign')) {
             $request->file('userDesign')->storeAs('public/images/temp', $tShirt->id . '.jpg');
-            $path = true;
+            $isDesign = true;
         }
-
 
         //Je renvois quel t-shirt est choisit + quel motif
         return view('mergeRenderer', [
             'motif' => $request->input('image'),
-            'userDesign' => $path,
+            'userDesign' => $isDesign,
             't_shirt' => $tShirt,
         ]);
     }

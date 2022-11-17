@@ -27,10 +27,8 @@
 
     @endif
     <hr>
-
     <h1>Liste des images</h1>
-
-    <form method="post" action="{{ route('mergedImage', $myData) }}" enctype="multipart/form-data" class="w-75 mx-auto">
+    <form method="post" action="{{ route('mergedImage', [$myData]) }}" enctype="multipart/form-data" class="w-75 mx-auto">
         @csrf
         @method('put')
         <div class="d-flex flex-wrap gap-5">
@@ -45,6 +43,5 @@
             <input type="file" accept=".jpg, .png" name="userDesign">
             <input class="w-10 mx-auto btn btn-primary" type="submit">
         </div>
-
     </form>
 @endsection
