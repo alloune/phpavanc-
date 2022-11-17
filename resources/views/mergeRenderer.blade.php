@@ -5,7 +5,7 @@
 <h1>Rendu final</h1>
 <div class="card w-25 mx-auto">
     <img class="card-img-top"
-         src="{{ $userDesign ? route('imageRenderer', [$t_shirt, $t_shirt->id] ) : route('imageRenderer', $t_shirt) }}"
+         src="{{ $userDesign ? route('merge.show', [$t_shirt, $t_shirt->id] ) : route('merge.show', $t_shirt) }}"
          alt="Card image cap">
     <div class="card-body">
         <table class="table">
