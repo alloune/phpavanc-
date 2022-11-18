@@ -4,9 +4,11 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ApiImageRequest;
+use App\Mail\TshirtCreated;
 use App\Models\TShirt;
 use GuzzleHttp\Promise\Create;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Intervention\Image\Facades\Image;
 
 class ApiMergeController extends Controller
@@ -65,8 +67,15 @@ class ApiMergeController extends Controller
         $newTshirt->mergeImageUrl = $newFileLink;
         $newTshirt->save();
 
+        \App\Events\TshirtCreated::dispatch($newTshirt);
 
-        return 'T-shirt Crée';
+//        Mail::to('allan.lelay@le-campus-numerique.fr')->send(new TshirtCreated($newTshirt));
+
+        return response()->json([
+            'success' => true,
+            'message' => 'CRéation reussie',
+
+        ],200);
     }
 
     /**

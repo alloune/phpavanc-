@@ -10,10 +10,11 @@
     @if($allOrder)
         <div class="d-flex flex-row flex-wrap gap-5">
             @foreach($allOrder as $order)
-
                 <div class="card w-25 mx-auto">
+                    @dd($order->mergeImageUrl)
                     <h4>Commande numéro #{{ $order->id }}</h4>
                     <img class="card-img-top"
+
                          src="{{ $order->mergeImageUrl }}"
                          alt="Card image cap">
                     <div class="card-body">

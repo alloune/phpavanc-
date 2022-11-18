@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTshirtRequest;
+use App\Jobs\CreateMergeImage;
 use App\Models\TShirt;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -101,24 +102,7 @@ class TShirtController extends Controller
         $newFileLink = str_replace('.png', strval($tShirt->id) . '.png', $newFileLink);
 
         copy($imageLink, $newFileLink);
-
-        $tShirtLayer = Image::make($newFileLink);
-        $tShirtLayer->resize(500, 500);
-
-        if ($request->input('image')) {
-            $findImage = Image::make('storage/images/temp/' . $tShirt->id . '.jpg')->resize(100, 100);
-            $tShirtLayer->insert($findImage, 'center');
-
-            Storage::delete('public/images/temp/' . $tShirt->id . '.jpg');
-        } else {
-            $tShirtLayer->insert('https://picsum.photos/100?random=' . $tShirt->id, 'center');
-        }
-
-        $tShirtLayer->save();
-
-        $tShirt->mergeImageUrl = $newFileLink;
-        $tShirt->save();
-
+        CreateMergeImage::dispatch($tShirt, $newFileLink, $request->input('image') ? :'');
 
         return redirect(route('t-shirt.show', $tShirt));
     }
@@ -132,7 +116,7 @@ class TShirtController extends Controller
     public function destroy(TShirt $tShirt)
     {
         $tShirt->delete();
-        return back();
+        return redirect(route('t-shirt.create'));
     }
 
     public function displayMergedImage(Request $request, TShirt $tShirt)
